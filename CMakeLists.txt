@@ -15,7 +15,7 @@ if(NOT HYPODERMIC_FOUND)
   ExternalProject_Add(
     hypodermic
     URL "https://github.com/karolherbst/hypodermic/archive/master.zip"
-    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_EXTERNAL_BINARY_DIR}/hypodermic
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_EXTERNAL_BINARY_DIR}/hypodermic -DBT=SHARED
     BUILD_IN_SOURCE 0
     SOURCE_DIR <prefix>/src/<name>/hypodermic-master/
   )
