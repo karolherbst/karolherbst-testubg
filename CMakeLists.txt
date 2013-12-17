@@ -8,6 +8,8 @@ include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(HYPODERMIC DEFAULT_MSG HYPODERMIC_LIBRARIES HYPODERMIC_INCLUDE_DIRS)
 mark_as_advanced(HYPODERMIC_INCLUDE_DIRS HYPODERMIC_LIBRARIES)
 
+set(CMAKE_EXTERNAL_BINARY_DIR "${CMAKE_BINARY_DIR}/external")
+
 include(ExternalProject)
 ExternalProject_Add(
   hypodermic
