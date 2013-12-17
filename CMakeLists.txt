@@ -1,4 +1,5 @@
 project(karolherbst-testubg)
+cmake_minimum_required(VERSION 2.8)
 
 find_path(HYPODERMIC_INCLUDE_DIRS Hypodermic/ContainerBuilder.h)
 find_library(HYPODERMIC_LIBRARIES NAMES libhypodermic hypodermic)
