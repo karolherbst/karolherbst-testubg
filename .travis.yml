@@ -3,7 +3,7 @@ compiler:
   - gcc
   - clang
 before_install:
-  - if [ "$CC" = "clang" ]; then BV=1.48
+  - if [ "$CC" = "clang" ]; then BV=1.48 ; fi
   - sudo apt-get update -qq
 install:
   - sudo apt-get install libboost${BV}-dev libboost-signals${BV}-dev libboost-system${BV}-dev libboost-test${BV}-dev
