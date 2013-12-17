@@ -1,6 +1,10 @@
 language: cpp
 compiler:
   - gcc
+before_install:
+  - sudo apt-get update -qq
+install:
+  - sudo apt-get install libboost-dev libboost-signals-dev libboost-system-dev libboost-test-dev
 script:
   - cmake .
   - make
