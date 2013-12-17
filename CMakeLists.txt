@@ -1,3 +1,5 @@
+project(karolherbst-testubg)
+
 find_path(HYPODERMIC_INCLUDE_DIRS Hypodermic/ContainerBuilder.h)
 find_library(HYPODERMIC_LIBRARIES NAMES libhypodermic hypodermic)
 
