@@ -1,5 +1,7 @@
 #include <iostream>
  
+#include <unistd.h>
+ 
 #include <curl/curl.h>
  
 using namespace std;
@@ -26,11 +28,12 @@ struct CurlWrapperCallback
     CurlCallback::funcPtr callback;
 };
  
-static void curlWrapper(void *buffer, size_t sz, size_t n, CurlWrapperCallback *f)
+static size_t curlWrapper(void *buffer, size_t sz, size_t n, CurlWrapperCallback *f)
 {
     std::cout << "curlWRapper try to call callback" << std::endl;
     (f->ref->*f->callback)(buffer, sz, n);
     delete f;
+    return n;
 }
  
 template <class C>
@@ -43,7 +46,7 @@ Downloader::downloadFile(const char* const url, size_t size, C& ref, void (C::*c
      cwc->ref = reinterpret_cast<CurlCallback *>(&ref);
      cwc->callback = reinterpret_cast<CurlCallback::funcPtr>(callback);
      CURL *curl = curl_easy_init();
-     curl_easy_setopt(curl, CURLOPT_URL, "https://www.humblebundle.com/home");
+     curl_easy_setopt(curl, CURLOPT_URL, url);
      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWrapper);
      curl_easy_setopt(curl, CURLOPT_WRITEDATA, cwc);
      
@@ -69,7 +72,7 @@ void
 A::handleDownload(void * buffer, size_t, size_t)
 {
     std::cout << "got some data" << std::endl;
-    std::cout << buffer << std::endl;
+    std::cout << static_cast<const char*>(buffer) << std::endl;
 }
  
 int main()
@@ -78,5 +81,6 @@ int main()
     Downloader d;
     const char url[] = "http://google.de";
     d.downloadFile(url, sizeof(url), a, &A::handleDownload);
+    sleep(2);
     return 0;
 }
