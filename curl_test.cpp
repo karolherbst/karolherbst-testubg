@@ -13,7 +13,7 @@ public:
     void downloadFile(const char* const url, size_t size, C& ref, void (C::*callback)(void *, size_t, size_t
 ));
 protected:
-    void handleDownload(const char* const url, size_t size);
+    void handleDownload(const char* const url, size_t size, CurlWrapperCallback * cwc);
 };
  
 struct CurlCallback
@@ -45,6 +45,12 @@ Downloader::downloadFile(const char* const url, size_t size, C& ref, void (C::*c
      CurlWrapperCallback * cwc = new CurlWrapperCallback();
      cwc->ref = reinterpret_cast<CurlCallback *>(&ref);
      cwc->callback = reinterpret_cast<CurlCallback::funcPtr>(callback);
+     handleDownload(url, size, cwc);
+}
+
+void
+Downloader::handleDownload(const char* const url, size_t size, CurlWrapperCallback * cwc)
+{
      CURL *curl = curl_easy_init();
      curl_easy_setopt(curl, CURLOPT_URL, url);
      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWrapper);
