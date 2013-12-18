@@ -5,17 +5,7 @@
 #include <curl/curl.h>
  
 using namespace std;
- 
-class Downloader
-{
-public:
-    template <class C>
-    void downloadFile(const char* const url, size_t size, C& ref, void (C::*callback)(void *, size_t, size_t
-));
-protected:
-    void handleDownload(const char* const url, size_t size, CurlWrapperCallback * cwc);
-};
- 
+
 struct CurlCallback
 {
     void callback(void *, size_t, size_t);
@@ -26,6 +16,16 @@ struct CurlWrapperCallback
 {
     CurlCallback * ref;
     CurlCallback::funcPtr callback;
+};
+ 
+class Downloader
+{
+public:
+    template <class C>
+    void downloadFile(const char* const url, size_t size, C& ref, void (C::*callback)(void *, size_t, size_t
+));
+protected:
+    void handleDownload(const char* const url, size_t size, CurlWrapperCallback * cwc);
 };
  
 static size_t curlWrapper(void *buffer, size_t sz, size_t n, CurlWrapperCallback *f)
