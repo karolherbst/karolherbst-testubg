@@ -28,6 +28,7 @@ struct CurlWrapperCallback
  
 static void curlWrapper(void *buffer, size_t sz, size_t n, CurlWrapperCallback *f)
 {
+    std::cout << "curlWRapper try to call callback" << std::endl;
     (f->ref->*f->callback)(buffer, sz, n);
     delete f;
 }
@@ -37,6 +38,7 @@ void
 Downloader::downloadFile(const char* const url, size_t size, C& ref, void (C::*callback)(void *, size_t, size_t
 ))
 {
+     std::cout << "downloadFile" << std::endl;
      CurlWrapperCallback * cwc = new CurlWrapperCallback();
      cwc->ref = reinterpret_cast<CurlCallback *>(&ref);
      cwc->callback = reinterpret_cast<CurlCallback::funcPtr>(callback);
@@ -49,6 +51,10 @@ Downloader::downloadFile(const char* const url, size_t size, C& ref, void (C::*c
      if(curlCode != CURLE_OK)
      {
          std::cout << "error occured:  " << curl_easy_strerror(curlCode) << std::endl;
+     }
+     else
+     {
+         std::cout << "no error while downloading" << std::endl;
      }
      curl_easy_cleanup(curl);
 }
